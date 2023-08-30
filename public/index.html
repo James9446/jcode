@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="">
+  <title>Home Page</title>
+  <link rel="shortcut icon" type="image/x-icon" href="images/duck.ico"/>
+  <link rel="stylesheet" href="./css/main.css">
+  <script src='./js/analytics.js'></script>
+<!--   <script src='./js/friendbuy.js'></script> -->
+<!--   <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/shell.js"></script> -->
+</head>
+
+<body>
+  <div class="header">
+      <h1 id="page">Home</h1>
+      <p id="coupon-header"></p>
+  </div>
+
+  <div class="topnav">
+    <a href="/">Home</a>
+    <a href="./loyalty">Loyalty</a>
+    <a href="https://app.segment.com/friendbuy-james/sources/javascript/debugger" target="_blank">Debugger</a>
+    <a href="https://github.com/James9446/James9446.github.io" target="_blank">GitHub</a>
+    
+    <p id="writeKeyValue"></p>
+  </div>
+  
+  <div class="row">
+      <div class="leftcolumn">
+        <div class="card">   
+          <h2>Identify</h2>
+          <p id="login-warning"></p>
+          <select id="usersDropdown">
+            <option value="james">James Reynolds</option>
+            <option value="luigi">Luigi</option>
+            <option value="mario">Mario</option>
+            <option value="homer">Homer Simpson</option>
+          </select>
+          <button id="callIdentify">Identify</button>
+        </div>
+        <div class="card">
+          <h2>Segment Events</h2>
+          <div>
+            <button id="order-completed">Order Completed</button>
+            <button id="signed-up">Signed Up</button>
+            <button id="custom-event">Custom Event</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Friendbuy Events</h2>
+          <div>
+            <button id="fbuy-customer">Track Customer</button>
+            <button id="fbuy-purchase">Track Purchase</button>
+            <button id="fbuy-page">Track Page</button>
+            <button id="fbuy-sign-up">Track Sign Up</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Clear Data</h2>
+          <div>
+            <button id="clear-all">Clear All</button>
+            <button id="clear-segment">Clear Segment</button>
+            <button id="clear-friendbuy">Clear Friendbuy</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>All Ecommerce Events</h2>
+          <select id="eventDropdown">
+            <option value="productsSearched">Products Searched</option>
+            <option value="productListViewed">Product List Viewed</option>
+            <option value="productListFiltered">Product List Filtered</option>
+            <option value="promotionViewed">Promotion Viewed</option>
+            <option value="promotionClicked">Promotion Clicked</option>
+            <option value="productClicked">Product Clicked</option>
+            <option value="productViewed">Product Viewed</option>
+            <option value="productAdded">Product Added</option>
+            <option value="productRemoved">Product Removed</option>
+            <option value="cartViewed">Cart Viewed</option>
+            <option value="checkoutStarted">Checkout Started</option>
+            <option value="checkoutStepViewed">Checkout Step Viewed</option>
+            <option value="checkoutStepCompleted">Checkout Step Completed</option>
+            <option value="paymentInfoEntered">Payment Info Entered</option>
+            <option value="orderCompleted">Order Completed</option>
+            <option value="orderUpdated">Order Updated</option>
+            <option value="orderRefunded">Order Refunded</option>
+            <option value="orderCancelled">Order Cancelled</option>
+            <option value="couponEntered">Coupon Entered</option>
+            <option value="couponApplied">Coupon Applied</option>
+            <option value="couponDenied">Coupon Denied</option>
+            <option value="couponRemoved">Coupon Removed</option>
+            <option value="productAddedToWishlist">Product Added to Wishlist</option>
+            <option value="productRemovedFromWishlist">Product Removed from Wishlist</option>
+            <option value="wishlistProductAddedToCart">Wishlist Product Added to Cart</option>
+            <option value="productShared">Product Shared</option>
+            <option value="cartShared">Cart Shared</option>
+            <option value="productReviewed">Product Reviewed</option>
+          </select>
+          <button id="fireEvent">Fire Event</button>
+        </div>
+        <div class="card">
+          <h2>Utilities</h2>
+          <h4>Log Visitor</h4>
+          <div>
+            <button id="logVisitor">Visitor Status</button>
+          </div>
+          <h4>Log Integrations</h4>
+          <div>
+            <button id="logInt">Integrations</button>
+          </div>
+          <h4>Load different source</h4>
+          <div>
+            <input type="text" id="writeKeyInput" placeholder="Enter Write Key">
+            <button id="getWriteKey">Load Write Key</button>
+          </div>
+        </div>
+      </div>
+      <div class="rightcolumn">
+        <div class="card">
+          <h3>Anonymous ID:</h3>
+          <p id="anony"></p>
+          <h3>User ID:</h3>
+          <p id="user"></p>
+          <h3>Segment Email:</h3>
+          <p id="seg-email"></p>
+        </div>
+        <div class="card">
+          <h3>Customer ID:</h3>
+          <p id="customer-id"></p>
+          <h3>FBuy Email:</h3>
+          <p id="fnd-email"></p>
+          <h3>Is Authenticated:</h3>
+          <p id="is-authenticated"></p>
+          <h3>Referral Code:</h3>
+          <p id="referral-code"></p>
+          <h3>Attribution ID:</h3>
+          <p id="attribution-id"></p>
+        </div>
+        <div class="card">
+          <h3>Segment Events</h3>
+          <div id="track">
+            <p id="event"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <script src='./js/main.js'></script>
+  <script src='./js/ecommerce.js'></script>
+  <script src='./js/users.js'></script>
+</body>
+</html>
