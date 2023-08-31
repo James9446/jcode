@@ -83,7 +83,7 @@ const orderCompleted = (e) => {
   let event = ecommerceEvents.orderCompleted;
   const coupon = document.getElementById("coupon-header").innerText;
   event.properties.coupon = coupon;
-  event.properties.order_id = crypto.randomUUID();
+  event.properties.order_id = generateRandomId();
   if (e.shiftKey) {
     return console.log(`analytics.track(${JSON.stringify(event.eventName)}, ${JSON.stringify(event.properties, null, ' ')})`);
   }
@@ -140,7 +140,7 @@ const fireEvent = (e) => {
     event.properties.coupon = coupon;
   }
   if (event.properties.order_id) {
-    event.properties.order_id = crypto.randomUUID();
+    event.properties.order_id = generateRandomId();
   }
   if (e.shiftKey) {
     return console.log(`analytics.track(${JSON.stringify(event.eventName)}, ${JSON.stringify(event.properties, null, ' ')})`);
@@ -245,7 +245,7 @@ function fBuyTrackPurchase(e) {
         "track",
         "purchase",
         {
-          id: ${JSON.stringify(crypto.randomUUID())},
+          id: ${JSON.stringify(generateRandomId())},
           amount: 22,
           currency: "USD", 
           couponCode: ${JSON.stringify(coupon)},   
@@ -271,7 +271,7 @@ function fBuyTrackPurchase(e) {
     "track",
     "purchase",
     {
-      id: crypto.randomUUID(),
+      id: generateRandomId(),
       amount: 22,
       currency: "USD", 
       couponCode: coupon,   
@@ -327,6 +327,29 @@ function fBuyTrackSignUp(e) {
 
 // Utility Functions
 
+const clearAll = () => {
+  resetAnalytics();
+  clearStorageAndCookies();
+}
+
+const resetAnalytics = () => {
+  analytics.reset();
+  updateAllUserInfo();
+}
+
+const clearStorageAndCookies = () => {
+  const fBuyUser = getFriendbuyLocalStorageUserData()
+  const customerId = fBuyUser.customerId;
+  console.log(`__fby__customer_${customerId}`)
+  localStorage.removeItem("persist:friendbuy-msdk-06192019-root");
+  localStorage.removeItem(`__fby__customer_${customerId}`);
+  document.cookie = "name=globalId; expires=Thu, 01 Jan 1970 00:00:00 UTC"; 
+  updateView("login-warning", "login-warning", "", "P");
+  updateAllUserInfo();
+}
+
+// Helper Functions
+
 const getFriendbuyLocalStorageUserData = () => {
   // Friendbuy Local Storage Data
   const friendbuyLocalStorage = deepParseJson(localStorage.getItem("persist:friendbuy-msdk-06192019-root"))
@@ -371,26 +394,18 @@ function deepParseJson(json) {
   return obj;
 }
 
-const clearAll = () => {
-  resetAnalytics();
-  clearStorageAndCookies();
+const generateRandomId = (length=10) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let orderId = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    orderId += characters.charAt(randomIndex);
+  }
+
+  return orderId;
 }
 
-const resetAnalytics = () => {
-  analytics.reset();
-  updateAllUserInfo();
-}
-
-const clearStorageAndCookies = () => {
-  const fBuyUser = getFriendbuyLocalStorageUserData()
-  const customerId = fBuyUser.customerId;
-  console.log(`__fby__customer_${customerId}`)
-  localStorage.removeItem("persist:friendbuy-msdk-06192019-root");
-  localStorage.removeItem(`__fby__customer_${customerId}`);
-  document.cookie = "name=globalId; expires=Thu, 01 Jan 1970 00:00:00 UTC"; 
-  updateView("login-warning", "login-warning", "", "P");
-  updateAllUserInfo();
-}
 
 const logInt = () => {
   console.info(analytics.Integrations);
