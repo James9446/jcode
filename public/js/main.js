@@ -60,12 +60,22 @@ const updateAllUserInfo = () => {
 // Segment Identify 
 
 const callIdentify = (e) => {
+  // Check for existing user data in local storage before allowing an identify call 
+  let fBuyUser = getFriendbuyLocalStorageUserData()
+  let warning = document.getElementById("login-warning").innerText
+  // waring will only apear once - a second click will allow you to click identify 
+  if ((fBuyUser.email || fBuyUser.email) && !warning) {
+    updateView("login-warning", "login-warning", "", "p", "Are you sure? User data found in Local Storage");
+    return;
+  };
+  // identify user based on dropdown selection
   let user = users[document.getElementById("usersDropdown").value];
   if (e.shiftKey) {
     return console.log(`analytics.identify(${JSON.stringify(user.userId)}, ${JSON.stringify(user.traits, null, ' ')})`);
   }
   analytics.identify(user.userId, user.traits);
 }
+
 
 // Segment Dedicated Track Buttons
 
@@ -119,6 +129,7 @@ const customEvent = (e) => {
   })
 };
 
+
 // Segment All Ecommerce Events
 
 const fireEvent = (e) => {
@@ -137,6 +148,7 @@ const fireEvent = (e) => {
   analytics.track(event.eventName, event.properties)
 }
 
+
 // Segment Loyalty Points Custom Event 
 // (only on Loyalty Page)
 
@@ -149,10 +161,10 @@ const pointsEarned = (e) => {
     )
   }
   if (!analytics.user().id()) {
-    updateView("login-warning", "login-warning", "You must be logged in to earn points", "P");
+    updateView("points-warning", "points-warning", "You must be logged in to earn points", "P");
     return;
   }
-  updateView("login-warning", "login-warning", "", "P");
+  updateView("points-warning", "points-warning", "", "P");
   analytics.track("points_earned", { points });
   updateView("points-log", "points-log", `Earned ${points} points`, "P", '', true);
 }
@@ -370,8 +382,13 @@ const resetAnalytics = () => {
 }
 
 const clearStorageAndCookies = () => {
+  const fBuyUser = getFriendbuyLocalStorageUserData()
+  const customerId = fBuyUser.customerId;
+  console.log(`__fby__customer_${customerId}`)
   localStorage.removeItem("persist:friendbuy-msdk-06192019-root");
+  localStorage.removeItem(`__fby__customer_${customerId}`);
   document.cookie = "name=globalId; expires=Thu, 01 Jan 1970 00:00:00 UTC"; 
+  updateView("login-warning", "login-warning", "", "P");
   updateAllUserInfo();
 }
 
@@ -414,7 +431,7 @@ const copyPassword = () => {
 
 // Button Event Listener
 // addEventListener("load", () => {updateAllUserInfo()});
-if (window.location.href.includes("/loyalty.html")) {
+if (window.location.href.includes("/loyalty")) {
   document.getElementById("points-earned").addEventListener("click", pointsEarned);
 }
 document.getElementById("clear-all").addEventListener("click", clearAll);
