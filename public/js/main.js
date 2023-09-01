@@ -493,7 +493,7 @@ analytics.ready(() => {
         const email = action.email;
         const userId = action.email.split("@")[0];
         // console.log(`analytics.identify("${userId}", {email: "${email}"})`);
-        analytics.identify("${userId}", {email: "${email}"});
+        analytics.identify(userId, {email: email});
       };
     },
   ]);
