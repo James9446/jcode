@@ -340,10 +340,10 @@ const resetAnalytics = () => {
 const clearStorageAndCookies = () => {
   const fBuyUser = getFriendbuyLocalStorageUserData()
   const customerId = fBuyUser.customerId;
-  console.log(`__fby__customer_${customerId}`)
+  // console.log(`__fby__customer_${customerId}`)
   localStorage.removeItem("persist:friendbuy-msdk-06192019-root");
   localStorage.removeItem(`__fby__customer_${customerId}`);
-  document.cookie = "name=globalId; expires=Thu, 01 Jan 1970 00:00:00 UTC"; 
+  document.cookie = "globalId=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;"; 
   updateView("login-warning", "login-warning", "", "P");
   updateAllUserInfo();
 }
@@ -352,8 +352,8 @@ const clearStorageAndCookies = () => {
 
 const getFriendbuyLocalStorageUserData = () => {
   // Friendbuy Local Storage Data
-  const friendbuyLocalStorage = deepParseJson(localStorage.getItem("persist:friendbuy-msdk-06192019-root"))
-  const fBuyUser = {}
+  const friendbuyLocalStorage = deepParseJson(localStorage.getItem("persist:friendbuy-msdk-06192019-root"));
+  const fBuyUser = {};
   fBuyUser.customerId = friendbuyLocalStorage && friendbuyLocalStorage.customer && friendbuyLocalStorage.customer.id ? friendbuyLocalStorage.customer.id : null;
   fBuyUser.email = friendbuyLocalStorage && friendbuyLocalStorage.customer && friendbuyLocalStorage.customer.email ? friendbuyLocalStorage.customer.email : null;
   fBuyUser.isAuthenticated = friendbuyLocalStorage && friendbuyLocalStorage.tracker ? friendbuyLocalStorage.tracker.isAuthenticated : null;
@@ -474,7 +474,7 @@ analytics.ready(() => {
     "subscribe",
     "couponReceived",
     function (coupon) {
-      console.log("coupon: ", coupon); 
+      // console.log("coupon: ", coupon); 
       updateView("coupon-header", "coupon-header", "", "H3", `Coupon Applied: ${coupon}`);
       updateAllUserInfo();
     },
@@ -484,9 +484,17 @@ analytics.ready(() => {
     "subscribe",
     "widgetActionTriggered",
     function (action) {
+      // console.log(action);
       if (action.actionName === "emailShare" || action.actionName === "copyText" || action.actionName === "advocateEmailCaptured") {
         updateAllUserInfo();
-      }
+      };
+      if (action.actionName = "friendEmailCaptured" && action.email) {
+        console.log(action)
+        const email = action.email;
+        const userId = action.email.split("@")[0];
+        // console.log(`analytics.identify("${userId}", {email: "${email}"})`);
+        analytics.identify("${userId}", {email: "${email}"});
+      };
     },
   ]);
 });
