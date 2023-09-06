@@ -81,7 +81,8 @@ const callIdentify = (e) => {
 
 const orderCompleted = (e) => {
   let event = ecommerceEvents.orderCompleted;
-  const coupon = document.getElementById("coupon-header").innerText;
+  let coupon = document.getElementById("coupon-header").innerText;
+  coupon = coupon ? coupon.split("Coupon Applied: ")[1] : coupon; 
   event.properties.coupon = coupon;
   event.properties.order_id = generateRandomId();
   if (e.shiftKey) {
@@ -109,7 +110,8 @@ const signedUp = (e) => {
 };
 
 const customEvent = (e) => {
-  const coupon = document.getElementById("coupon-header").innerText;
+  let coupon = document.getElementById("coupon-header").innerText;
+  coupon = coupon ? coupon.split("Coupon Applied: ")[1] : coupon;
   const attributionId = document.getElementById("attribution-id").innerText;
   const referralCode = document.getElementById("referral-code").innerText;
 
@@ -134,7 +136,8 @@ const customEvent = (e) => {
 
 const fireEvent = (e) => {
   let event = ecommerceEvents[document.getElementById("eventDropdown").value];
-  const coupon = document.getElementById("coupon-header").innerText;
+  let coupon = document.getElementById("coupon-header").innerText;
+  coupon = coupon ? coupon.split("Coupon Applied: ")[1] : coupon;
 
   if (event.properties.coupon) {
     event.properties.coupon = coupon;
@@ -237,7 +240,8 @@ function fBuyTrackPurchase(e) {
   console.log("fBuy Track Purchase");
   const user = getUserDataFromDropdown();
   const products = ecommerceEvents.orderCompleted.properties.products;
-  const coupon = document.getElementById("coupon-header").innerText;
+  let coupon = document.getElementById("coupon-header").innerText;
+  coupon = coupon ? coupon.split("Coupon Applied: ")[1] : coupon;
 
   if (e.shiftKey) {
     return console.log(
