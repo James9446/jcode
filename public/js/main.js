@@ -60,19 +60,19 @@ const updateAllUserInfo = () => {
 // Segment Identify 
 
 const callIdentify = (e) => {
+  // identify user based on dropdown selection
+  let user = users[document.getElementById("usersDropdown").value];
+  if (e.shiftKey) {
+    return console.log(`analytics.identify(${JSON.stringify(user.userId)}, ${JSON.stringify(user.traits, null, ' ')})`);
+  };
   // Check for existing user data in local storage before allowing an identify call 
-  let fBuyUser = getFriendbuyLocalStorageUserData()
-  let warning = document.getElementById("login-warning").innerText
+  let fBuyUser = getFriendbuyLocalStorageUserData();
+  let warning = document.getElementById("login-warning").innerText;
   // waring will only apear once - a second click will allow you to click identify 
   if ((fBuyUser.email || fBuyUser.email) && !warning) {
     updateView("login-warning", "login-warning", "", "p", "Are you sure? User data found in Local Storage");
     return;
   };
-  // identify user based on dropdown selection
-  let user = users[document.getElementById("usersDropdown").value];
-  if (e.shiftKey) {
-    return console.log(`analytics.identify(${JSON.stringify(user.userId)}, ${JSON.stringify(user.traits, null, ' ')})`);
-  }
   analytics.identify(user.userId, user.traits);
 }
 
@@ -95,11 +95,11 @@ const signedUp = (e) => {
   let user = getUserDataFromDropdown();
   if (e.shiftKey) {
     return console.log(
-      `analytics.track('Signed Up', {
-        firstName: ${JSON.stringify(user.traits.first_name)},
-        lastName: ${JSON.stringify(user.traits.last_name)},
-        email: ${JSON.stringify(user.traits.email)},
-      });`
+`analytics.track('Signed Up', {
+  firstName: ${JSON.stringify(user.traits.first_name)},
+  lastName: ${JSON.stringify(user.traits.last_name)},
+  email: ${JSON.stringify(user.traits.email)},
+});`
     );
   }
   analytics.track('Signed Up', {
@@ -117,11 +117,11 @@ const customEvent = (e) => {
 
   if (e.shiftKey) {
     return console.log(
-      `analytics.track("custom_event", {
-        coupon: ${JSON.stringify(coupon)},
-        attributionId: ${JSON.stringify(attributionId)},
-        referralCode: ${JSON.stringify(referralCode)}
-      })`
+`analytics.track("custom_event", {
+  coupon: ${JSON.stringify(coupon)},
+  attributionId: ${JSON.stringify(attributionId)},
+  referralCode: ${JSON.stringify(referralCode)}
+})`
     );
   }
   analytics.track("custom_event", {
@@ -158,9 +158,10 @@ const fireEvent = (e) => {
 const pointsEarned = (e) => {
   const points = document.getElementById("points-dropdown").value.split("-")[1];
   if (e.shiftKey) {
-    return console.log(`analytics.track("points_earned", { 
-        points: ${points}
-      });`
+    return console.log(
+`analytics.track("points_earned", { 
+  points: ${points}
+});`
     )
   }
   if (!analytics.user().id()) {
@@ -184,16 +185,16 @@ const fBuyTrackCustomer = (e) => {
   if (e.shiftKey) {
     // return console.log(`analytics.identify(${JSON.stringify(user.userId)}, ${JSON.stringify(user.traits, null, ' ')})`);
     return console.log(
-      `friendbuyAPI.push([
-        "track",
-        "customer",
-        {
-          email: ${JSON.stringify(user.traits.email)},
-          id: ${JSON.stringify(user.userId)}, 
-          firstName: ${JSON.stringify(user.traits.first_name)}, 
-          lastName: ${JSON.stringify(user.traits.last_name)}
-        },
-      ]);`
+`friendbuyAPI.push([
+  "track",
+  "customer",
+  {
+    email: ${JSON.stringify(user.traits.email)},
+    id: ${JSON.stringify(user.userId)}, 
+    firstName: ${JSON.stringify(user.traits.first_name)}, 
+    lastName: ${JSON.stringify(user.traits.last_name)}
+  },
+]);`
     );
   }
   friendbuyAPI.push([
@@ -218,13 +219,13 @@ function fBuyTrackPage(e) {
   
   if (e.shiftKey) {
     return console.log(
-      `friendbuyAPI.push([
-        "track",
-        "page",
-        {
-          name: ${JSON.stringify(page)},
-        }
-      ]);`
+`friendbuyAPI.push([
+  "track",
+  "page",
+  {
+    name: ${JSON.stringify(page)},
+  }
+]);`
     )
   }
   friendbuyAPI.push([
@@ -245,23 +246,23 @@ function fBuyTrackPurchase(e) {
 
   if (e.shiftKey) {
     return console.log(
-      `friendbuyAPI.push([
-        "track",
-        "purchase",
-        {
-          id: ${JSON.stringify(generateRandomId())},
-          amount: 22,
-          currency: "USD", 
-          couponCode: ${JSON.stringify(coupon)},   
-          products: ${JSON.stringify(deepParseJson(JSON.stringify(products)), null, 2)},
-          customer: {
-            email: "",
-            id: "", 
-            firstName: "", 
-            lastName: ""
-          }
-        },
-      ]);`
+`friendbuyAPI.push([
+  "track",
+  "purchase",
+  {
+    id: ${JSON.stringify(generateRandomId())},
+    amount: 22,
+    currency: "USD", 
+    couponCode: ${JSON.stringify(coupon)},   
+    products: ${JSON.stringify(deepParseJson(JSON.stringify(products)), null, 2)},
+    customer: {
+      email: "",
+      id: "", 
+      firstName: "", 
+      lastName: ""
+    }
+  }
+]);`
       // Leaving this option here in comments to pull customer data from the user dropdown
       // customer: {
       //   email: ${JSON.stringify(user.traits.email)},
@@ -299,15 +300,15 @@ function fBuyTrackSignUp(e) {
   let user = getUserDataFromDropdown();
   if (e.shiftKey) {
     return console.log(
-      `friendbuyAPI.push([
-        "track",
-        "sign_up",
-        {
-          email: ${JSON.stringify(user.traits.email)},
-          id: ${JSON.stringify(user.userId)}, 
-          name: ${JSON.stringify(`${user.traits.first_name} ${user.traits.last_name}`)} 
-        },
-      ]);`
+`friendbuyAPI.push([
+  "track",
+  "sign_up",
+  {
+    email: ${JSON.stringify(user.traits.email)},
+    id: ${JSON.stringify(user.userId)}, 
+    name: ${JSON.stringify(`${user.traits.first_name} ${user.traits.last_name}`)} 
+  },
+]);`
     )
   }
   friendbuyAPI.push([
