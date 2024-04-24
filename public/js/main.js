@@ -359,8 +359,8 @@ const getFriendbuyLocalStorageUserData = () => {
   // Friendbuy Local Storage Data
   const friendbuyLocalStorage = deepParseJson(localStorage.getItem("persist:friendbuy-msdk-06192019-root"));
   const fBuyUser = {};
-  fBuyUser.customerId = friendbuyLocalStorage && friendbuyLocalStorage.customer && friendbuyLocalStorage.customer.id ? friendbuyLocalStorage.customer.id : null;
-  fBuyUser.email = friendbuyLocalStorage && friendbuyLocalStorage.customer && friendbuyLocalStorage.customer.email ? friendbuyLocalStorage.customer.email : null;
+  fBuyUser.customerId = friendbuyLocalStorage && friendbuyLocalStorage.customerData && friendbuyLocalStorage.customerData.customer && friendbuyLocalStorage.customerData.customer.id ? friendbuyLocalStorage.customerData.customer.id : null;
+  fBuyUser.email = friendbuyLocalStorage && friendbuyLocalStorage.customerData && friendbuyLocalStorage.customerData.customer && friendbuyLocalStorage.customerData.customer.email ? friendbuyLocalStorage.customerData.customer.email : null;
   fBuyUser.isAuthenticated = friendbuyLocalStorage && friendbuyLocalStorage.tracker ? friendbuyLocalStorage.tracker.isAuthenticated : null;
   return fBuyUser;
 }
