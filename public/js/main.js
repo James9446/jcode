@@ -485,23 +485,26 @@ analytics.ready(() => {
     },
   ]);
 
-  friendbuyAPI.push([
-    "subscribe",
-    "widgetActionTriggered",
-    function (action) {
-      // console.log(action);
-      if (action.actionName === "emailShare" || action.actionName === "copyText" || action.actionName === "advocateEmailCaptured") {
-        updateAllUserInfo();
-      };
-      if (action.actionName = "friendEmailCaptured" && action.email) {
-        console.log(action)
-        const email = action.email;
-        const userId = action.email.split("@")[0];
-        // console.log(`analytics.identify("${userId}", {email: "${email}"})`);
-        analytics.identify(userId, {email: email});
-      };
-    },
-  ]);
+  // removing due unexpected identify calls - also this is sometimes gets in the way of testing scenarios 
+  // it looks like the actionName parameter may have a push
+  
+  // friendbuyAPI.push([
+  //   "subscribe",
+  //   "widgetActionTriggered",
+  //   function (action) {
+  //     // console.log(action);
+  //     if (action.actionName === "emailShare" || action.actionName === "copyText" || action.actionName === "advocateEmailCaptured") {
+  //       updateAllUserInfo();
+  //     };
+  //     if (action.actionName = "friendEmailCaptured" && action.email) {
+  //       console.log(action)
+  //       const email = action.email;
+  //       const userId = action.email.split("@")[0];
+  //       // console.log(`analytics.identify("${userId}", {email: "${email}"})`);
+  //       analytics.identify(userId, {email: email});
+  //     };
+  //   },
+  // ]);
 });
 
 
