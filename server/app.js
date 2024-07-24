@@ -25,6 +25,10 @@ app.get('/advocate', (req, res) => {
   res.sendFile(path.join(__dirname, '../public', 'advocate.html'));
 });
 
+app.get('/dev', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public', 'advocate.html'));
+});
+
 app.post('/customer-auth', (req, res) => {
 
   const email = req.body.email;
