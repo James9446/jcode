@@ -11,6 +11,58 @@
   <script src='./js/analytics.js'></script>
 <!--   <script src='./js/friendbuy.js'></script> -->
 <!--   <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/shell.js"></script> -->
+<script>
+  window["friendbuyAPI"] = friendbuyAPI = window["friendbuyAPI"] || [];
+  friendbuyAPI.merchantId = "563d3842-05a2-46b9-a0d6-621e4e0a7ebf";
+  friendbuyAPI.push(["merchant", friendbuyAPI.merchantId]);
+
+  // load the merchant SDK and your campaigns
+  (function(f, r, n, d, b, u, y) {
+    while ((u = n.shift())) {
+      (b = f.createElement(r)), (y = f.getElementsByTagName(r)[0]);
+      b.async = 1;
+      b.src = u;
+      y.parentNode.insertBefore(b, y);
+    }
+  })(document, "script", [
+    "https://static.fbot.me/friendbuy.js",
+    "https://campaign.fbot.me/" + friendbuyAPI.merchantId + "/campaigns.js",
+  ]);
+</script>
+<script>
+  function generateUUID() {
+    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16));
+  };
+  function deepParseJson(json) {
+    var obj = JSON.parse(json);
+    for (var k in obj) {
+        if (typeof obj[k] === "string" && obj[k][0] === "{") {
+            obj[k] = deepParseJson(obj[k]);
+        }
+    }
+    return obj;
+  };
+  const getFriendbuyLocalStorageCustomerData = () => {
+    // Friendbuy Local Storage Data
+    const friendbuyLocalStorage = deepParseJson(localStorage.getItem("persist:friendbuy-msdk-06192019-root"));
+    return {
+      customerId: friendbuyLocalStorage?.customerData?.customer?.id ?? null,
+      email: friendbuyLocalStorage?.customerData?.customer?.email ?? null
+    };
+  };
+  const fBuyCustomerData = getFriendbuyLocalStorageCustomerData();
+  if (!fBuyCustomerData.email && !fBuyCustomerData.customerId) {
+    let randomUUID = generateUUID();
+    friendbuyAPI.push([
+      "track",
+      "customer",
+      {
+        email: `${randomUUID}@example.com`,
+        id: randomUUID
+      }
+    ]);
+  }
+</script>
 </head>
 
 <body>
